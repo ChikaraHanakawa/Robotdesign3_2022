@@ -202,3 +202,20 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+#Qt5 configulation
+set(CMAKE_AUTOMOC ON)
+find_package(Qt5 ${rviz_QT_VERSION} EXACT REQUIRED
+  Core
+  Widgets
+)
+set(QT_LIBRARIES Qt5::Widgets)
+add_definitions(-DQT_NO_KEYWORDS)
+
+add_executable(qt_basic1 src/qt_basic1.cpp)
+
+target_link_libraries(qt_basic1
+  ${catkin_LIBRARIES}
+  ${QT_LIBRARIES}
+)
+
