@@ -9,6 +9,7 @@ project(build_blocks)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   rospy
+  roscpp
 )
 
 ## System dependencies are found with CMake's conventions
@@ -219,3 +220,33 @@ target_link_libraries(qt_basic1
   ${QT_LIBRARIES}
 )
 
+add_executable(qt_basic2 src/qt_basic2.cpp)
+
+target_link_libraries(qt_basic2
+  ${catkin_LIBRARIES}
+  ${QT_LIBRARIES}
+)
+
+add_executable(qt_basic3 src/qt_basic3.cpp)
+
+target_link_libraries(qt_basic3
+  ${catkin_LIBRARIES}
+  ${QT_LIBRARIES}
+)
+
+add_executable(qt_talker src/qt_talker.cpp src/qt_talker_class.cpp)
+add_executable(qt_listener src/qt_listener.cpp src/qt_listener_class.cpp)
+
+target_link_libraries(qt_listener
+  ${catkin_LIBRARIES}
+  ${QT_LIBRARIES}
+)
+target_link_libraries(qt_talker
+  ${catkin_LIBRARIES}
+  ${QT_LIBRARIES}
+)
+
+add_executable(obiwancpp src/obiwancpp.cpp)
+target_link_libraries(obiwancpp
+  ${catkin_LIBRARIES}
+)

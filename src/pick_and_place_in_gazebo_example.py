@@ -49,13 +49,15 @@ def main(n):
     OBJECT_NAME_1 = "wood_cube_5cm_1"   # 掴むオブジェクト_1の名前
     OBJECT_NAME_2 = "wood_cube_5cm_2"   # 掴むオブジェクト_1の名前
     GRIPPER_OPEN = 1.2              # 掴む時のハンド開閉角度
-    GRIPPER_CLOSE = 0.42            # 設置時のハンド開閉角度
+    #GRIPPER_CLOSE = 0.42            # 設置時のハンド開閉角度
+    GRIPPER_CLOSE = 0.24            # 設置時のハンド開閉角度
     APPROACH_Z = 0.15               # 接近時のハンドの高さ
     LEAVE_Z = 0.20                  # 離れる時のハンドの高さ
-    PICK_Z = 0.12                   # 掴む時のハンドの高さ
+    #PICK_Z = 0.12                   # 掴む時のハンドの高さ
+    PICK_Z = 0.10                   # 掴む時のハンドの高さ
     OBJECT_NAME_POSITIONS = [
-            Point(0.2, 0.0, 0.15),
-            Point(0.2, -0.2, 0.15)
+            Point(0.2, 0.0, 0.13),
+            Point(0.2, -0.2, 0.13)
             ]
     PLACE_POSITIONS = [             # オブジェクトの設置位置 (ランダムに設置する)
             #Point(0.4, 0.0, 0.0),
@@ -145,7 +147,8 @@ def main(n):
 
             # 持ち上げる
             place_position = WAY_POINT[0]
-            target_pose.position.z = place_position.z + n*0.05
+            #target_pose.position.z = place_position.z + n*0.05
+            target_pose.position.z = place_position.z + n*0.03
             print("target_pose: " + str(target_pose))
             #target_pose.position.z = LEAVE_Z
             arm.set_pose_target(target_pose)
@@ -192,7 +195,8 @@ def main(n):
             rospy.sleep(1.0)
 
             # 設置する
-            target_pose.position.z = PICK_Z + (n+1)*0.05
+            #target_pose.position.z = PICK_Z + (n+1)*0.05
+            target_pose.position.z = PICK_Z + (n+1)*0.03
             #target_pose.position.z = place_position.z
             arm.set_pose_target(target_pose)
             if arm.go() is False:
@@ -204,7 +208,8 @@ def main(n):
             gripper.wait_for_result(rospy.Duration(1.0))
 
             # ハンドを上げる
-            target_pose.position.z = LEAVE_Z
+            #target_pose.position.z = LEAVE_Z + (n+1)*0.05
+            target_pose.position.z = LEAVE_Z + (n+1)*0.03
             arm.set_pose_target(target_pose)
             if arm.go() is False:
                 print("Failed to leave from an object.")
