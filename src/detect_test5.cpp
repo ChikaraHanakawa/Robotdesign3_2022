@@ -90,7 +90,7 @@ void depth_estimater::rgbImageCallback(const sensor_msgs::ImageConstPtr& msg){
 
   cv::findContours(bin_image_g, contours_g, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
   cv::findContours(bin_image_b, contours_b, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
-  cv::findContours(bin_image_r, contours_r, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
+  cv::findContours(masking, contours_r, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
   
   double area_b=0;
   int max_area_contour_b=-1;
