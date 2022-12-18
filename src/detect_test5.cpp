@@ -53,7 +53,7 @@ void depth_estimater::rgbImageCallback(const sensor_msgs::ImageConstPtr& msg){
   }
 
   cv::Mat hsv_image_g, hsv_image_b, hsv_image_r;
-  cv::Mat bin_image_g, bin_image_b, bin_image_r;
+  cv::Mat bin_image_g, bin_image_b, bin_image_r, bin_image_R;
   cv::Mat output_image_g, output_image_b, output_image_r;
 
   cv::Mat rgb_image = cv_ptr->image, output_image;
@@ -65,20 +65,25 @@ void depth_estimater::rgbImageCallback(const sensor_msgs::ImageConstPtr& msg){
   //cvtColor(rgb_image, hsv_image, CV_BGR2HSV, 3);
   //cvtColor(cv_ptr->image, hsv_image, hsv_image, CV_BGR2HSV, 3);//rgbからhsvに変換
 
-  Scalar low_g = Scalar(30, 150, 100);//hsvで表した緑あたり/(40. 50, 50)
+  Scalar low_g = Scalar(40, 150, 100);//hsvで表した緑あたり/(40. 50, 50)
   Scalar high_g = Scalar(90, 255, 255);
   Scalar low_b = Scalar(90, 150, 100);
   Scalar high_b = Scalar(160, 255, 255);
   Scalar low_r = Scalar(0, 150, 100);
   Scalar high_r = Scalar(30, 255, 255);
+  Scalar Low_r = Scalar(150, 150, 100);
+  Scalar High_r = Scalar(179, 255, 255);
 
   cv::inRange(hsv_image_g, low_g, high_g, bin_image_g);//2値化
   cv::inRange(hsv_image_b, low_b, high_b, bin_image_b);
   cv::inRange(hsv_image_r, low_r, high_r, bin_image_r);
+  cv::inRange(hsv_image_r, Low_r, High_r, bin_image_R);
   
+  cv::Mat masking = bin_image_r + bin_image_R;
+
   rgb_image.copyTo(output_image, bin_image_g);//マスク
   rgb_image.copyTo(output_image, bin_image_b);
-  rgb_image.copyTo(output_image, bin_image_r);
+  rgb_image.copyTo(output_image, masking);
   //cv_ptr->image.copyTo(output_image, bin_image);//マスク
 
   std::vector< std::vector< cv::Point > > contours_g, contours_b, contours_r;
