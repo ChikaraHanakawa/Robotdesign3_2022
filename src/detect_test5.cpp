@@ -65,12 +65,12 @@ void depth_estimater::rgbImageCallback(const sensor_msgs::ImageConstPtr& msg){
   //cvtColor(rgb_image, hsv_image, CV_BGR2HSV, 3);
   //cvtColor(cv_ptr->image, hsv_image, hsv_image, CV_BGR2HSV, 3);//rgbからhsvに変換
 
-  Scalar low_g = Scalar(40, 150, 100);//hsvで表した緑あたり/(40. 50, 50)
+  Scalar low_g = Scalar(30, 150, 100);//hsvで表した緑あたり/(40. 50, 50)
   Scalar high_g = Scalar(90, 255, 255);
   Scalar low_b = Scalar(90, 150, 100);
   Scalar high_b = Scalar(160, 255, 255);
-  Scalar low_r = Scalar(150, 150, 100);
-  Scalar high_r = Scalar(179, 255, 255);
+  Scalar low_r = Scalar(0, 150, 100);
+  Scalar high_r = Scalar(30, 255, 255);
 
   cv::inRange(hsv_image_g, low_g, high_g, bin_image_g);//2値化
   cv::inRange(hsv_image_b, low_b, high_b, bin_image_b);
@@ -115,24 +115,15 @@ void depth_estimater::rgbImageCallback(const sensor_msgs::ImageConstPtr& msg){
     }
 
     //画像の中心を(0,0)とした
-   // pose.x = 320 - x_b;//→が正
     pose.x = x_b - 320;//←が正
-    //pose.y = y_b - 240;//↓が正
     pose.y = 240 - y_b;//↑が正
     //printf("x = %lf, y = %lf theta = %lf\n", pose.x, pose.y, pose.theta);
-    circle(rgb_image, Point(x_b,y_b),100, Scalar(128,0,128),3,4);
+    circle(rgb_image, Point(x_b,y_b),100, Scalar(0,128,128),3,4);
 
     pub_blue.publish(pose);
   }else{
     pub_blue.publish(pose);
     //printf("x = %lf, y = %lf theta = %lf\n", pose.x, pose.y, pose.theta);
-  }
-
-  for(int x = 0; x < 640; x += 50){
-    line(rgb_image, Point(x, 0), Point(x, 480), Scalar(0, 200, 200), 1, 0);
-  }
-  for(int y = 0; y < 480; y +=50){
-    line(rgb_image, Point(0, y), Point(640, y), Scalar(0, 200, 200), 1, 0);
   }
 
   double area_r=0;
@@ -163,9 +154,7 @@ void depth_estimater::rgbImageCallback(const sensor_msgs::ImageConstPtr& msg){
     }
    
     //画像の中心を(0,0)とした
-    //pose.x = 320 - x;//→が正
     pose.x = x_r - 320;//←が正
-    //pose.y = y - 240;//↓が正
     pose.y = 240 - y_r;//↑が正
     //printf("x = %lf, y = %lf theta = %lf\n", pose.x, pose.y, pose.theta);
     circle(rgb_image, Point(x_r,y_r),100, Scalar(128,128,0),3,4);
@@ -174,13 +163,6 @@ void depth_estimater::rgbImageCallback(const sensor_msgs::ImageConstPtr& msg){
   }else{
     pub_red.publish(pose);
     //printf("x = %lf, y = %lf theta = %lf\n", pose.x, pose.y, pose.theta);
-  }
-   
-  for(int x = 0; x < 640; x += 50){
-    line(rgb_image, Point(x, 0), Point(x, 480), Scalar(0, 200, 200), 1, 0);
-  }
-  for(int y = 0; y < 480; y +=50){
-    line(rgb_image, Point(0, y), Point(640, y), Scalar(0, 200, 200), 1, 0);
   }
 
   double area_g=0;
@@ -211,12 +193,10 @@ void depth_estimater::rgbImageCallback(const sensor_msgs::ImageConstPtr& msg){
     }
 
     //画像の中心を(0,0)とした
-    //pose.x = 320 - x;//→が正
     pose.x = x_g - 320;//←が正
-    //pose.y = y - 240;//↓が正
     pose.y = 240 - y_g;//↑が正
     //printf("x = %lf, y = %lf theta = %lf\n", pose.x, pose.y, pose.theta);
-    circle(rgb_image, Point(x_g,y_g),100, Scalar(0,127,127),3,4);
+    circle(rgb_image, Point(x_g,y_g),100, Scalar(128,0,128),3,4);
 
     pub_green.publish(pose);
   }else{
