@@ -1,4 +1,4 @@
-#! /usr/bin/env python3
+#! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
 # Copyright 2019 RT Corporation
@@ -21,30 +21,12 @@ import moveit_commander
 import actionlib
 import math
 import random
-from geometry_msgs.msg import Point, Pose, Pose2D
+from geometry_msgs.msg import Point, Pose
 from gazebo_msgs.msg import ModelStates
 from control_msgs.msg import GripperCommandAction, GripperCommandGoal
 from tf.transformations import quaternion_from_euler, euler_from_quaternion
 
 gazebo_model_states = ModelStates()
-
-class Subscribe_publishers():
-    def __init__(self):
-        # Subscriberを作成
-        self.subscriber = rospy.Subscriber('blue', Pose2D, self.callback_A)
-        # messageの型を作成
-        self.message = Pose2D()
-        # publsishu
-
-    def callback_A(self, message):
-        print("callbacl!!!!!!!!!!!")
-        global sub_blue
-        sub_blue = message
-        print("sub_blue_x: "+str(sub_blue.x) + "sub_blue_y: "+ str(sub_blue.y))
-        # callback時の処理
-        #self.pub.make_msg(message)
-        # publish
-        #self.pub.send_msg()
 
 def callback(msg):
     global gazebo_model_states
@@ -62,37 +44,24 @@ def yaw_of(object_orientation):
 
 def main(n):
     global gazebo_model_states
-    n = 0
 
     OBJECT_NAME = "wood_cube_5cm"   # 掴むオブジェクトの名前
     OBJECT_NAME_1 = "wood_cube_5cm_1"   # 掴むオブジェクト_1の名前
     OBJECT_NAME_2 = "wood_cube_5cm_2"   # 掴むオブジェクト_1の名前
     GRIPPER_OPEN = 1.2              # 掴む時のハンド開閉角度
-    #GRIPPER_CLOSE = 0.42            # 設置時のハンド開閉角度
-    GRIPPER_CLOSE = 0.24            # 設置時のハンド開閉角度
+    GRIPPER_CLOSE = 0.42            # 設置時のハンド開閉角度
     APPROACH_Z = 0.15               # 接近時のハンドの高さ
     LEAVE_Z = 0.20                  # 離れる時のハンドの高さ
-    #PICK_Z = 0.12                   # 掴む時のハンドの高さ
-    PICK_Z = 0.10                   # 掴む時のハンドの高さ
+    PICK_Z = 0.12                   # 掴む時のハンドの高さ
     OBJECT_NAME_POSITIONS = [
-            #Point(0.2, 0.2, 0.13),
-            Point(0.2, 0.0, 0.13),
-            Point(0.1, 0.2, 0.13),
-            Point(0.2, -0.1, 0.13),
-            Point(0.2, -0.2, 0.13),
-            Point(0.1, -0.2, 0.13),
-            
+            Point(0.2, 0.0, 0.15),
+            Point(0.2, -0.2, 0.15)
             ]
     PLACE_POSITIONS = [             # オブジェクトの設置位置 (ランダムに設置する)
             #Point(0.4, 0.0, 0.0),
             #Point(0.0, 0.3, 0.0),
             #Point(0.0, -0.3, 0.0),
-            #Point(0.2, 0.2, 0.0),#last
-            Point(0.2, 0.23, 0.0),#last
-            Point(0.2, 0.26, 0.0),#last
-            Point(0.2, 0.215, 0.0),#last
-            Point(0.2, 0.245, 0.0),#last
-            Point(0.2, 0.23, 0.0),#last
+            Point(0.2, 0.2, 0.0),#last
             #Point(0.2, -0.2, 0.0),
             #Point(0.2, 0.0, 0.0)
             ]
@@ -101,9 +70,6 @@ def main(n):
             ]
 
     sub_model_states = rospy.Subscriber("gazebo/model_states", ModelStates, callback, queue_size=1)
-    #sub_blue = rospy.Subscriber("blue", Pose2D, callback_blue, queue_size=1)
-
-    
 
     arm = moveit_commander.MoveGroupCommander("arm")
     arm.set_max_velocity_scaling_factor(0.4)
@@ -122,14 +88,13 @@ def main(n):
         gripper.wait_for_result(rospy.Duration(1.0))
 
         # SRDFに定義されている"home"の姿勢にする
-        #arm.set_named_target("home")
-        arm.set_named_target("game_ofset")
+        arm.set_named_target("home")
         arm.go()
         rospy.sleep(1.0)
 
         # 一定時間待機する
         # この間に、ユーザがgazebo上のオブジェクト姿勢を変更しても良い
-        sleep_time = 1.5
+        sleep_time = 3.0
         print("Wait " + str(sleep_time) + " secs.")
         rospy.sleep(sleep_time)
         print("Start")
@@ -153,8 +118,7 @@ def main(n):
             #target_pose.position.z = APPROACH_Z
             target_pose.position.z = object_position.z
             print("target_x: "+str(target_pose.position.x)+"target_y: "+str(target_pose.position.y)+"target_z: "+str(target_pose.position.z))
-            #q = quaternion_from_euler(-math.pi, 0.0, object_yaw)
-            q = quaternion_from_euler(-math.pi, 0.0, 0.0)
+            q = quaternion_from_euler(-math.pi, 0.0, object_yaw)
             print("first_q: "+str(q))
             target_pose.orientation.x = q[0]
             target_pose.orientation.y = q[1]
@@ -163,7 +127,7 @@ def main(n):
             arm.set_pose_target(target_pose)
             if arm.go() is False:
                 print("Failed to approach an object.")
-                #continue
+                continue
             rospy.sleep(1.0)
 
             # 掴みに行く
@@ -181,19 +145,13 @@ def main(n):
 
             # 持ち上げる
             place_position = WAY_POINT[0]
-            target_pose.position.z = place_position.z + n*0.03
-            """if n < 3:
-                target_pose.position.z = place_position.z + 1*0.03
-            elif n < 5:
-                target_pose.position.z = place_position.z + 2*0.03
-            else:
-                target_pose.position.z = place_position.z + 3*0.03"""
+            target_pose.position.z = place_position.z + n*0.05
             print("target_pose: " + str(target_pose))
             #target_pose.position.z = LEAVE_Z
             arm.set_pose_target(target_pose)
             if arm.go() is False:
-                print("Failed to pick up an object.!!")
-                #continue
+                print("Failed to pick up an object.")
+                continue
             rospy.sleep(1.0)
             
             # オブジェクトを回避しながら設置位置に移動する
@@ -217,13 +175,11 @@ def main(n):
             """
 
             # 設置位置に移動する
-            #place_position = random.choice(PLACE_POSITIONS) # 設置位置をランダムに選択する
-            place_position = PLACE_POSITIONS[n] # 設置位置をランダムに選択する
+            place_position = random.choice(PLACE_POSITIONS) # 設置位置をランダムに選択する
             target_pose.position.x = place_position.x
             target_pose.position.y = place_position.y
             print("target_x: "+str(target_pose.position.x)+"target_y: "+str(target_pose.position.y))
-            #q = quaternion_from_euler(-math.pi, 0.0, -math.pi/2.0)
-            q = quaternion_from_euler(-math.pi, 0.0, 0.0)
+            q = quaternion_from_euler(-math.pi, 0.0, -math.pi/2.0)
             print("first_q: "+str(q))
             target_pose.orientation.x = q[0]
             target_pose.orientation.y = q[1]
@@ -231,49 +187,39 @@ def main(n):
             target_pose.orientation.w = q[3]
             arm.set_pose_target(target_pose)
             if arm.go() is False:
-                print("1Failed to approach target position.")
-                #continue
+                print("Failed to approach target position.")
+                continue
             rospy.sleep(1.0)
 
             # 設置する
-            #target_pose.position.z = PICK_Z + (n+1)*0.05
-            #target_pose.position.z = PICK_Z + (n+1)*0.03
-            if n < 3:
-                target_pose.position.z = PICK_Z + 1*0.03
-            elif n < 5:
-                target_pose.position.z = PICK_Z + 2*0.03
-            else:
-                target_pose.position.z = PICK_Z + 3*0.03
+            target_pose.position.z = PICK_Z + (n+1)*0.05
             #target_pose.position.z = place_position.z
             arm.set_pose_target(target_pose)
             if arm.go() is False:
-                print("2Failed to place an object.")
-                #continue
+                print("Failed to place an object.")
+                continue
             rospy.sleep(1.0)
             gripper_goal.command.position = GRIPPER_OPEN
             gripper.send_goal(gripper_goal)
             gripper.wait_for_result(rospy.Duration(1.0))
 
             # ハンドを上げる
-            #target_pose.position.z = LEAVE_Z + (n+1)*0.05
-            target_pose.position.z = LEAVE_Z + (n+1)*0.03
+            target_pose.position.z = LEAVE_Z
             arm.set_pose_target(target_pose)
             if arm.go() is False:
-                print("3Failed to leave from an object.")
-                #continue
+                print("Failed to leave from an object.")
+                continue
             rospy.sleep(1.0)
 
             # SRDFに定義されている"home"の姿勢にする
-            #arm.set_named_target("home")
-            arm.set_named_target("game_ofset")
+            arm.set_named_target("home")
             if arm.go() is False:
-                print("4Failed to go back to home pose.")
+                print("Failed to go back to home pose.")
                 continue
             rospy.sleep(1.0)
 
             print("Done")
             n+=1
-            print(n)
 
         else:
             print("No objects")
@@ -282,13 +228,9 @@ def main(n):
 if __name__ == '__main__':
     n = 0
     rospy.init_node("pick_and_place_in_gazebo_example")
-    sub = Subscribe_publishers()
-    
 
     try:
         if not rospy.is_shutdown():
             main(n)
     except rospy.ROSInterruptException:
         pass
-#nr_x: 0.09970760233918133nr_y: -0.1960167084377611nr_z: 0.2
-#nr_x: 0.3016643967642684nr_y: -0.19725015791511302nr_z: 0.2
