@@ -1028,7 +1028,7 @@ class Food_Stock:
 
         def move_gripper(pou):
             gripper.set_joint_value_target([pou, pou])
-            gripper.go()x_game
+            gripper.go()
 
         def move_arm(pos_x, pos_y, pos_z):
             target_pose = geometry_msgs.msg.Pose()
