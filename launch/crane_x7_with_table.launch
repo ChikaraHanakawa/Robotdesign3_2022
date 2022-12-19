@@ -36,8 +36,12 @@
 
   <!-- Load the URDF into the ROS Parameter Server -->
   <param name="robot_description"
-    command="$(find xacro)/xacro --inorder '$(find crane_x7_d435)/urdf/crane_x7_d435.xacro' use_effort_gripper:=$(arg use_effort_gripper)"
-    />
+    command="$(find xacro)/xacro '$(find build_blocks)/urdf/crane_x7_d435.xacro' use_effort_gripper:=$(arg use_effort_gripper)"
+  />
+  <!--
+    command="$(find xacro)/xacro '$(find crane_x7_d435)/urdf/crane_x7_d435.xacro' use_effort_gripper:=$(arg use_effort_gripper)"
+    command="$(find xacro)/xacro '$(find build_blocks)/urdf/crane_x7_d435.xacro' use_effort_gripper:=$(arg use_effort_gripper)"
+  -->
  <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
         args="-urdf -model crane_x7 -param robot_description -z 1.02"/>
@@ -52,5 +56,6 @@
     <arg name="debug" default="$(arg moveit_debug)" />
     <arg name="use_gui" default="$(arg use_gui)" />
   </include>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find build_blocks)/rviz/urdf.rviz" required="true" />
 
 </launch>

@@ -10,7 +10,19 @@ project(build_blocks)
 find_package(catkin REQUIRED COMPONENTS
   rospy
   roscpp
+  #std_msgs
+  #geometry_msgs
+  #sensor_msgs
+  #cv_bridge
+  #message_generation
+  #image_transport
+  #shape_msgs
+  #tf
+  #trajectory_msgs
 )
+
+#add_service_files(FILES ObstacleAvoidance.srv)
+#generate_messages(DEPENDENCIES std_msgs geometry_msgs)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -106,6 +118,7 @@ catkin_package(
 #  LIBRARIES build_blocks
 #  CATKIN_DEPENDS rospy
 #  DEPENDS system_lib
+ #CATKIN_DEPENDS message_runtime
 )
 
 ###########
@@ -117,6 +130,7 @@ catkin_package(
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
+  #${PCL_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -152,6 +166,16 @@ include_directories(
 #############
 ## Install ##
 #############
+
+#install(DIRECTORY launch
+#  DESTINATION ${CATKIN_PACKAGE_SHAPE_DESTINATION}
+#)
+
+#file(GLOB python_script scripts/*.py)
+#catkin_install_python(
+#  PROGRAMS ${python_scripts}
+#  DESTINATION ${CATKIN?PACKAGE_BIN_DESTINATION}
+#)
 
 # all install targets should use catkin DESTINATION variables
 # See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
@@ -205,48 +229,55 @@ include_directories(
 # catkin_add_nosetests(test)
 
 #Qt5 configulation
-set(CMAKE_AUTOMOC ON)
-find_package(Qt5 ${rviz_QT_VERSION} EXACT REQUIRED
-  Core
-  Widgets
-)
-set(QT_LIBRARIES Qt5::Widgets)
-add_definitions(-DQT_NO_KEYWORDS)
+#set(CMAKE_AUTOMOC ON)
+#find_package(Qt5 ${rviz_QT_VERSION} EXACT REQUIRED
+#  Core
+#  Widgets
+#)
+#set(QT_LIBRARIES Qt5::Widgets)
+#add_definitions(-DQT_NO_KEYWORDS)
 
-add_executable(qt_basic1 src/qt_basic1.cpp)
+#add_executable(qt_basic1 src/qt_basic1.cpp)
 
-target_link_libraries(qt_basic1
-  ${catkin_LIBRARIES}
-  ${QT_LIBRARIES}
-)
+#target_link_libraries(qt_basic1
+#  ${catkin_LIBRARIES}
+#  ${QT_LIBRARIES}
+#)
 
-add_executable(qt_basic2 src/qt_basic2.cpp)
+#add_executable(qt_basic2 src/qt_basic2.cpp)
 
-target_link_libraries(qt_basic2
-  ${catkin_LIBRARIES}
-  ${QT_LIBRARIES}
-)
+#target_link_libraries(qt_basic2
+#  ${catkin_LIBRARIES}
+#  ${QT_LIBRARIES}
+#)
 
-add_executable(qt_basic3 src/qt_basic3.cpp)
+#add_executable(qt_basic3 src/qt_basic3.cpp)
 
-target_link_libraries(qt_basic3
-  ${catkin_LIBRARIES}
-  ${QT_LIBRARIES}
-)
+#target_link_libraries(qt_basic3
+#  ${catkin_LIBRARIES}
+#  ${QT_LIBRARIES}
+#)
 
-add_executable(qt_talker src/qt_talker.cpp src/qt_talker_class.cpp)
-add_executable(qt_listener src/qt_listener.cpp src/qt_listener_class.cpp)
+#add_executable(detect_test4 src/detect_test4.cpp)
 
-target_link_libraries(qt_listener
-  ${catkin_LIBRARIES}
-  ${QT_LIBRARIES}
-)
-target_link_libraries(qt_talker
-  ${catkin_LIBRARIES}
-  ${QT_LIBRARIES}
-)
+#target_link_libraries(detect_test4
+#  ${catkin_LIBRARIES}
+#  ${OpenCV_LIBRARIES}
+#)
 
-add_executable(obiwancpp src/obiwancpp.cpp)
-target_link_libraries(obiwancpp
-  ${catkin_LIBRARIES}
-)
+#add_executable(qt_talker src/qt_talker.cpp src/qt_talker_class.cpp)
+#add_executable(qt_listener src/qt_listener.cpp src/qt_listener_class.cpp)
+
+#target_link_libraries(qt_listener
+#  ${catkin_LIBRARIES}
+#  ${QT_LIBRARIES}
+#)
+#target_link_libraries(qt_talker
+#  ${catkin_LIBRARIES}
+#  ${QT_LIBRARIES}
+#)
+
+#add_executable(obiwancpp src/obiwancpp.cpp)
+#target_link_libraries(obiwancpp
+#  ${catkin_LIBRARIES}
+#)
