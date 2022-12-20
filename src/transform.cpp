@@ -60,6 +60,9 @@ void depth_estimater::rgbImageCallback(const sensor_msgs::ImageConstPtr& msg){
 
   cv::Mat hsv_image_g, hsv_image_b, hsv_image_r;
   cv::Mat bin_image_g, bin_image_b, bin_image_r, bin_image_R;
+  cv::Mat output_image_g, output_image_b, output_image_r;
+
+  cv::Mat rgb_image = cv_ptr->image, output_image;
 
   cvtColor(rgb_image, hsv_image_g, CV_BGR2HSV, 3);//rgbからhsvに変換
   cvtColor(rgb_image, hsv_image_b, CV_BGR2HSV, 3);
@@ -343,16 +346,15 @@ void depth_estimater::transformCallback(const sensor_msgs::ImageConstPtr& msg){
 
     // 座標変換を行う
     tf::Vector3 position_or = transformer * tf::Vector3(x_os, y_os, z_os);
-<<<<<<< HEAD
     tf::Quaternion attitude_or = transformer * tf::createQuaternionFromRPY(roll_os, pitch_os, yaw_os);
     tf::Vector3 velocity_or = velocity_transformer * tf::Vector3(Vx_os, Vy_os, Vz_os);
-    //tf::Quaternion attitude_or = transformer * tf::createQuaternionFromRPY(roll_os, pitch_os, yaw_os);
-    //tf::Vector3 velocity_or = velocity_transformer * tf::Vector3(Vx_os, Vy_os, Vz_os);
+
+    double x_or, y_or, z_or; // 変換後のターゲット位置@ロボット座標系
+    double roll_or, pitch_or, yaw_or; // 変換後のターゲット姿勢@ロボット座標系
     double Vx_or, Vy_or, Vz_or; // 変換後のターゲット速度@ロボット座標系
     x_or = position_or.x();
     y_or = position_or.y();
     z_or = position_or.z();
-<<<<<<< HEAD
     tf::Matrix3x3(attitude_or).getRPY(roll_or, pitch_or, yaw_or);
     Vx_or = velocity_or.x();
     Vy_or = velocity_or.y();
@@ -360,14 +362,6 @@ void depth_estimater::transformCallback(const sensor_msgs::ImageConstPtr& msg){
     printf("after_X:%f\n", x_or);
     printf("after_Y:%f\n", y_or);
     printf("after_Z:%f\n", z_or);
-=======
-    /*tf::Matrix3x3(attitude_or).getRPY(roll_or, pitch_or, yaw_or);
-    Vx_or = velocity_or.x();
-    Vy_or = velocity_or.y();
-    Vz_or = velocity_or.z();*/
-    printf("after_X:%f/n", x_or);
-    printf("after_Y:%f\n", y_or);
->>>>>>> main
 
     ros::NodeHandle nh_;
     ros::NodeHandle pnh_;
