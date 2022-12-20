@@ -10,7 +10,18 @@ project(build_blocks)
 find_package(catkin REQUIRED COMPONENTS
   rospy
   roscpp
-  #std_msgs
+  geometry_msgs
+  sensor_msgs
+  cv_bridge
+  message_generation
+  image_transport
+  shape_msgs
+  tf
+  trajectory_msgs
+  pcl_conversions
+  pcl_msgs
+  pcl_ros
+  std_msgs
   #geometry_msgs
   #sensor_msgs
   #cv_bridge
@@ -20,7 +31,8 @@ find_package(catkin REQUIRED COMPONENTS
   #tf
   #trajectory_msgs
 )
-
+add_service_files(FILES ObstacleAvoidance.srv)
+generate_messages(DEPENDENCIES std_msgs geometry_msgs)
 #add_service_files(FILES ObstacleAvoidance.srv)
 #generate_messages(DEPENDENCIES std_msgs geometry_msgs)
 
@@ -118,7 +130,7 @@ catkin_package(
 #  LIBRARIES build_blocks
 #  CATKIN_DEPENDS rospy
 #  DEPENDS system_lib
- #CATKIN_DEPENDS message_runtime
+ CATKIN_DEPENDS message_runtime
 )
 
 ###########
@@ -130,7 +142,7 @@ catkin_package(
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
-  #${PCL_INCLUDE_DIRS}
+  ${PCL_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -167,15 +179,15 @@ include_directories(
 ## Install ##
 #############
 
-#install(DIRECTORY launch
-#  DESTINATION ${CATKIN_PACKAGE_SHAPE_DESTINATION}
-#)
+install(DIRECTORY launch
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
 
-#file(GLOB python_script scripts/*.py)
-#catkin_install_python(
-#  PROGRAMS ${python_scripts}
-#  DESTINATION ${CATKIN?PACKAGE_BIN_DESTINATION}
-#)
+file(GLOB python_script scripts/*.py)
+catkin_install_python(
+  PROGRAMS ${python_scripts}
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 # all install targets should use catkin DESTINATION variables
 # See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
@@ -281,3 +293,10 @@ include_directories(
 #target_link_libraries(obiwancpp
 #  ${catkin_LIBRARIES}
 #)
+
+add_executable(image src/detect_test5.cpp)
+add_executable(depth src/transform_test1.cpp)
+#add_executable(depth src/locate.cpp)
+target_link_libraries(image ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+target_link_libraries(depth ${PCL_LIBRARIES} ${catkin_LIBRARIES})
+#target_link_libraries(depth ${PCL_LIBRARIES} ${catkin_LIBRARIES})
