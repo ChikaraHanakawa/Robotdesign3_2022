@@ -294,9 +294,9 @@ catkin_install_python(
 #  ${catkin_LIBRARIES}
 #)
 
-add_executable(image src/detect_test5.cpp)
+#add_executable(image src/detect_test5.cpp)
 add_executable(depth src/transform_test1.cpp)
 #add_executable(depth src/locate.cpp)
-target_link_libraries(image ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+#target_link_libraries(image ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 target_link_libraries(depth ${PCL_LIBRARIES} ${catkin_LIBRARIES})
 #target_link_libraries(depth ${PCL_LIBRARIES} ${catkin_LIBRARIES})
