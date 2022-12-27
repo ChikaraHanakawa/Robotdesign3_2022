@@ -92,6 +92,15 @@ $realsense-viewer
   ```
   $catkin_make
   ```
+### 実行方法
+  - 端末1
+  ```
+  $roslaunch realsense2_camera rs_camera.launch
+  ```
+  - 端末2
+  ```
+  $rosrun image_view image_view  image:=/camera/color/image_raw
+  ```
 9. OpenCVのインストール
 ```
 $
