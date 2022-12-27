@@ -47,8 +47,35 @@ $
 $
 ```
 8. RealSenseのセットアップ
+- サーバーの公開鍵を登録
 ```
-$
+$sudo sh -c 'echo "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo xenial main" | sudo tee /etc/apt/sources.list.d/realsense-public.list'
+```
+- サーバーをリポジトリのリストに追加
+```
+$sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
+```
+- ライブラリをインストールします
+```
+$sudo apt-get install librealsense2-dkms
+```
+```
+$sudo apt-get install librealsense2-utils
+```
+- 必要に応じて、開発者パッケージとデバッグパッケージをインストール 
+```
+$sudo apt-get install librealsense2-dev
+```
+```
+$sudo apt-get install librealsense2-dbg
+```
+  - パッケージをインストールすると、librealsense又は任意のIDEを使用し`dev`アプリケーションをコンパイル出来る
+  ```
+  $g++ -std=c++11 filename.cpp -lrealsense2
+  ```
+- インストールを確認するために、Intel RealSenseをUSB接続して、以下をターミナルに実行
+```
+$realsense-viewer
 ```
 9. OpenCVのインストール
 ```
