@@ -1,8 +1,8 @@
 # Robotdesign3_2022
 **ロボット設計製作論実習3**  
 こちらはCRANE-X7を用いて、自作の積み木を積み上げるためのROSパッケージになります。  
-本パッケージはオリジナルである[rt-net/crane_x7_ros](https://github.com/rt-net/crane_x7_ros)を元に  
-千葉工業大学先進工学部未来ロボティクス学科の学生が講義内でグループ2022-RobotDesign-team1(レッドリボン軍)が作成したものです。
+本パッケージはオリジナルである[rt-net/crane_x7_ros](https://github.com/rt-net/crane_x7_ros)を元に千葉工業大学先進工学部未来ロボティクス学科の学生が講義内で  
+グループ2022-RobotDesign-team1(レッドリボン軍)が作成したものです。
 ## 実装内容
 [CRANE-X7](https://rt-net.jp/products/crane-x7/)を用いて、積み木を積み上げるサンプルコードとなります。  
 CRANE-X7とintelRealSenseD435を使用しています。  
@@ -76,6 +76,22 @@ $sudo apt-get install librealsense2-dbg
 ```
 $realsense-viewer
 ```
+### ROSラッパーのインストール
+  1. [ROSデバイスラッパー](https://github.com/intel-ros/realsense/releases)からSource Code(realsense-2.3.2.tar.gz)をダウンロード  
+  ```
+  $tar xvzf realsense-2.3.2.tar.gz
+  ```
+  2. `realsense-2.3.2`というディレクトリが出来るので、`~/catkin_ws/src`に移動させる
+  ```
+  $mv realsense-2.3.2 ~/catkin_ws/src/
+  ```
+  3. ビルドする
+  ```
+  $cd ~/catkin_ws/src/
+  ```
+  ```
+  $catkin_make
+  ```
 9. OpenCVのインストール
 ```
 $
