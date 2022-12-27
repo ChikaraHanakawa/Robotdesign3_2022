@@ -76,7 +76,7 @@ $sudo apt-get install librealsense2-dbg
 ```
 $realsense-viewer
 ```
-### ROSラッパーのインストール
+**ROSラッパーのインストール**  
   1. [ROSデバイスラッパー](https://github.com/intel-ros/realsense/releases)からSource Code(realsense-2.3.2.tar.gz)をダウンロード  
   ```
   $tar xvzf realsense-2.3.2.tar.gz
@@ -92,7 +92,7 @@ $realsense-viewer
   ```
   $catkin_make
   ```
-### 実行方法
+**実行方法**  
   - 端末1
   ```
   $roslaunch realsense2_camera rs_camera.launch
