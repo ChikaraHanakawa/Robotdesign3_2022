@@ -54,3 +54,4 @@ git clone https://github.com/issaiass/realsense2_description.git
 git clone https://github.com/issaiass/realsense_gazebo_plugin
 cd ~/catkin_ws/
 catkin_make
+echo "export PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w\[\033[01;31m\]$(__git_ps1 "[%s]")\[\033[00m\]\$\[\033[00m\] ' " >> ~/.bashrc
