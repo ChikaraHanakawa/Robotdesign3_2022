@@ -122,6 +122,12 @@ webブラウザを開くとGUIが使えるようになる。
 
 ROSの方の起動方法は先述したやり方と同じ。
 
+```
+$ roslaunch build_blocks crane_x7_with_table.launch
+$ rosrun build_blocks debug_qt.py
+$ rosrun build_blocks depth
+```
+
 ## 知的財産について
 CRANE-X7は、アールティが開発した研究用アームロボットです。 このリポジトリのデータ等に関するライセンスについては、[LICENSE](https://github.com/2021-RobotDesign3-team2/crane_x7_ros_test/blob/main/LICENSE)ファイルをご参照ください。 企業による使用については、自社内において研究開発をする目的に限り、本データの使用を許諾します。 本データを使って自作されたい方は、義務ではありませんが弊社ロボットショップで部品をお買い求めいただければ、励みになります。 商業目的をもって本データを使用する場合は、商業用使用許諾の条件等について弊社までお問合せください。
 
