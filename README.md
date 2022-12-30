@@ -136,6 +136,10 @@ $ realsense-viewer
 ```
 $
 ```
+10. CRANE_X7の設定の編集
+```
+$ bash set_up_crane_x7.sh
+```
 
 **忙しい人用**
 ```

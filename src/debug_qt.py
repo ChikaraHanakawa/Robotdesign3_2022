@@ -100,6 +100,9 @@ class Example(QWidget):
         btn9 = QPushButton("to_blue", self)
         btn9.move(480, 200)
 
+        btn17 = QPushButton("to_red", self)
+        btn17.move(480, 250)
+
         btn10 = QPushButton("ofset", self)
         btn10.move(620, 200)
 
@@ -120,6 +123,9 @@ class Example(QWidget):
 
         btn16 = QPushButton("z_game-", self)
         btn16.move(340, 300)
+
+        btn18 = QPushButton("main", self)
+        btn18.move(80, 350)
         """
         btn5 = QPushButton("Button", self)
         btn5.move(620, 150)
@@ -146,6 +152,8 @@ class Example(QWidget):
         btn14.clicked.connect(self.Push_J)
         btn15.clicked.connect(self.Push_K)
         btn16.clicked.connect(self.Push_L)
+        btn17.clicked.connect(self.Push_M)
+        btn18.clicked.connect(self.Push_N)
 
 
         #btn5.pressed.connect(self.updateStatusBar())
@@ -188,85 +196,95 @@ class Example(QWidget):
         for i in range(1):
             self.angle_label[i].setText(str(self.angle_slider[i].value()))
 
-    def Push_Right(self):
+    def Push_Right(self, n):
         print("1111111111111111111111")
-        food_stock = Food_Stock()
-        food_stock.main()
+        mode_stock = Mode_Stock()
+        mode_stock.main(n)
 
-    def Push_Up(self):
+    def Push_Up(self, n):
         print("2222222222222222222222")
-        food_stock = Food_Stock()
-        food_stock.x_move()
+        mode_stock = Mode_Stock()
+        mode_stock.x_move(n)
 
-    def Push_Down(self):
+    def Push_Down(self, n):
         print("3333333333333333333333")
-        food_stock = Food_Stock()
-        food_stock.y_move()
+        mode_stock = Mode_Stock()
+        mode_stock.y_move(n)
 
     def Push_Go(self):
         print("4444444444444444444444")
-        food_stock = Food_Stock()
-        food_stock.game_ofset()
+        mode_stock = Mode_Stock()
+        mode_stock.game_ofset()
 
     def Push_A(self):
         print("555555555555555555555")
-        food_stock = Food_Stock()
-        food_stock.third_block_ofset()
+        mode_stock = Mode_Stock()
+        mode_stock.third_block_ofset()
         
     def Push_B(self):
         print("666666666666666666666")
-        food_stock = Food_Stock()
-        food_stock.catch_block()
+        mode_stock = Mode_Stock()
+        mode_stock.catch_block()
 
-    def Push_C(self):
+    def Push_C(self, n):
         print("7777777777777777777")
-        food_stock = Food_Stock()
-        food_stock.put_block()
+        mode_stock = Mode_Stock()
+        mode_stock.put_block(n)
     
     def Push_D(self):
         print("7777777777777777777")
-        food_stock = Food_Stock()
-        food_stock.choose_put_pos_G()
+        mode_stock = Mode_Stock()
+        mode_stock.choose_put_pos_G()
 
     def Push_E(self):
         print("7777777777777777777")
-        food_stock = Food_Stock()
-        food_stock.choose_put_pos_B()
+        mode_stock = Mode_Stock()
+        mode_stock.choose_put_pos_B()
     
     def Push_F(self):
         print("7777777777777777777")
-        food_stock = Food_Stock()
-        food_stock.ofset_b()
+        mode_stock = Mode_Stock()
+        mode_stock.ofset_b()
 
     def Push_G(self):
         print("7777777777777777777")
-        food_stock = Food_Stock()
-        food_stock.x_move_game()
+        mode_stock = Mode_Stock()
+        mode_stock.x_move_game()
 
     def Push_H(self):
         print("7777777777777777777")
-        food_stock = Food_Stock()
-        food_stock.y_move_game()
+        mode_stock = Mode_Stock()
+        mode_stock.y_move_game()
 
     def Push_I(self):
         print("7777777777777777777")
-        food_stock = Food_Stock()
-        food_stock.z_move_game()
+        mode_stock = Mode_Stock()
+        mode_stock.z_move_game()
 
     def Push_J(self):
         print("7777777777777777777")
-        food_stock = Food_Stock()
-        food_stock.x_move_game_min()
+        mode_stock = Mode_Stock()
+        mode_stock.x_move_game_min()
 
     def Push_K(self):
         print("7777777777777777777")
-        food_stock = Food_Stock()
-        food_stock.y_move_game_min()
+        mode_stock = Mode_Stock()
+        mode_stock.y_move_game_min()
 
     def Push_L(self):
         print("7777777777777777777")
-        food_stock = Food_Stock()
-        food_stock.z_move_game_min()
+        mode_stock = Mode_Stock()
+        mode_stock.z_move_game_min()
+
+    def Push_M(self):
+        print("7777777777777777777")
+        mode_stock = Mode_Stock()
+        mode_stock.choose_put_pos_R()
+
+    def Push_N(self):
+        print("7777777777777777777")
+        mode_stock = Mode_Stock()
+        mode_stock.pick_main()
 
     def qt_slider(self):
         self.angle_label = [QLabel() for x in range(1)]
@@ -341,8 +359,8 @@ class Example(QWidget):
             msg = self.sender().text() + ' was pressed... {}'.format(self.counter)
             self.statusBar().showMessage(msg)
 
-class Food_Stock:
-    def main(self):
+class Mode_Stock:
+    def main(self, n):
         robot = moveit_commander.RobotCommander()
         arm = moveit_commander.MoveGroupCommander("arm")
         arm.set_max_velocity_scaling_factor(0.5)
@@ -388,8 +406,11 @@ class Food_Stock:
         #arm.set_named_target("vertical")
         arm.go()
         #move_arm(0.2, 0.0, 0.13)
-        nr.position.x, nr.position.y, nr.position.z = 0.2, -0.2, 0.2
-        rotate_hand(nr.position.x, nr.position.y, 0.2, -math.pi, 0.0, 0.0)
+        #nr.position.x, nr.position.y, nr.position.z = 0.2, -0.2, 0.2
+        nr.position.x, nr.position.y, nr.position.z = 0.2, 0.0, 0.2
+        #rotate_hand(nr.position.x, nr.position.y, 0.2, -math.pi, 0.0, 0.0)
+        rotate_hand(0.2, 0.0, 0.13, -math.pi, 0.0, 0.0)
+        n+=1
         #rotate_hand(0.2-0.1, -0.2-0.00, 0.2, -math.pi, 0.0, 0.0)
         #ハンドを開く
         #move_gripper(1.3)
@@ -401,7 +422,7 @@ class Food_Stock:
         #rotate_hand(0.19656094687103462, 0.2018005936419827, 0.18980440929975606, 0.7073039496558831, -0.7066695134571028, 0.006372004050582716)
         #w: 0.017283492583064008
 
-    def x_move(self):
+    def x_move(self, n):
         robot = moveit_commander.RobotCommander()
         arm = moveit_commander.MoveGroupCommander("arm")
         arm.set_max_velocity_scaling_factor(0.5)
@@ -446,8 +467,11 @@ class Food_Stock:
         
         #rotate_hand(0.19, 0.05, 0.2, -math.pi, 0.0, 0.0)
         #nr.position.x, nr.position.y, nr.position.z = 0.2-(sub_blue.x)+0.06, 0.2-(sub_blue.y)-0.07,0.2
-        nr.position.x, nr.position.y, nr.position.z = nr.position.x-(sub_blue.x)+0.06, nr.position.y-(sub_blue.y)-0.07,0.2
-        rotate_hand(nr.position.x, nr.position.y, 0.2, -math.pi, 0.0, 0.0)
+        #nr.position.x, nr.position.y, nr.position.z = nr.position.x-(sub_blue.x)+0.06, nr.position.y-(sub_blue.y)-0.07,0.2
+        nr.position.x, nr.position.y, nr.position.z = 0.2, -0.1, 0.2
+        #rotate_hand(nr.position.x, nr.position.y, 0.2, -math.pi, 0.0, 0.0)
+        rotate_hand(0.2, -0.1, 0.13, -math.pi, 0.0, 0.0)
+        n+=1
 
         #(-0.01, +0.05, 0)
         #move_arm(0.2, 0.01, 0.2)
@@ -474,7 +498,7 @@ class Food_Stock:
         print("6")
         #move_arm(0.2, 0.05*7, 0.3)"""
 
-    def y_move(self):
+    def y_move(self, n):
         robot = moveit_commander.RobotCommander()
         arm = moveit_commander.MoveGroupCommander("arm")
         arm.set_max_velocity_scaling_factor(0.5)
@@ -529,8 +553,10 @@ class Food_Stock:
         arm.set_named_target("home")
         arm.go()
         #move_arm(0.2, 0.2, 0.3)
-        nr.position.x, nr.position.y, nr.position.z = 0.2, 0.2, 0.2
-        rotate_hand(nr.position.x, nr.position.y, 0.2, -math.pi, 0.0, 0.0)
+        nr.position.x, nr.position.y, nr.position.z = 0.2, -0.2, 0.2
+        #rotate_hand(nr.position.x, nr.position.y, 0.2, -math.pi, 0.0, 0.0)
+        rotate_hand(0.2, -0.2, 0.13, -math.pi, 0.0, 0.0)
+        n+=1
         #rotate_hand(0.2, 0.2, 0.3, -math.pi, 0.0, 0.0)
         #rospy.sleep(0.3)
         #rotate_hand(0.2-(0.162934)+0.01, 0.2-(-0.0949304)-0.05,0.2)
@@ -592,8 +618,10 @@ class Food_Stock:
         #pick_and_place_in_gazebo_example.main(n=0)
         #rotate_hand(0.2-(0.108762)+0.01, -0.2-(-0.0469294)-0.05, 0.2, -math.pi, 0.0, 0.0)
         #nr.position.x, nr.position.y, nr.position.z = 0.2-(sub_blue.x)+0.06, -0.2-(sub_blue.y)-0.07, 0.2
-        nr.position.x, nr.position.y, nr.position.z = nr.position.x-(sub_blue.x)+0.06, nr.position.y-(sub_blue.y)-0.07, 0.2
-        rotate_hand(nr.position.x, nr.position.y, 0.2, -math.pi, 0.0, 0.0)
+        #nr.position.x, nr.position.y, nr.position.z = nr.position.x-(sub_blue.x)+0.06, nr.position.y-(sub_blue.y)-0.07, 0.2
+        nr.position.x, nr.position.y, nr.position.z = 0.2, 0.2, 0.2
+        #rotate_hand(nr.position.x, nr.position.y, 0.2, -math.pi, 0.0, 0.0)
+        rotate_hand(0.2, 0.2, 0.2, -math.pi, 0.0, 0.0)
 
     def catch_block(self):
         robot = moveit_commander.RobotCommander()
@@ -651,7 +679,7 @@ class Food_Stock:
         _target_pose.position.z = 0.2
         move_arm(nr.position.x, nr.position.y, _target_pose.position.z)
 
-    def put_block(self):
+    def put_block(self, n):
         robot = moveit_commander.RobotCommander()
         arm = moveit_commander.MoveGroupCommander("arm")
         arm.set_max_velocity_scaling_factor(0.5)
@@ -683,7 +711,8 @@ class Food_Stock:
             arm.set_pose_target(target_pose)  # 目標ポーズ設定
             arm.go()  # 実行
         
-        _target_pose.position.z = 0.1 + 0.03*1
+        _target_pose.position.z = 0.07 + 0.03*1
+        print(str(n)+"!!!!!!!!!!")
         move_arm(nr.position.x, nr.position.y, _target_pose.position.z)
         rospy.sleep(1.0)
         move_gripper(1.2)
@@ -723,12 +752,21 @@ class Food_Stock:
             arm.set_pose_target(target_pose)  # 目標ポーズ設定
             arm.go()  # 実行
         
+        """
         #nr.position.x, nr.position.y, nr.position.z = 0.2-(sub_green.x)+0.06, 0.2-(sub_green.y)-0.07,0.2
         print("nr_x: "+str(nr.position.x) + "nr_y: " +str(nr.position.y) + "nr_z: "+ str(nr.position.z))
 
         nr.position.x, nr.position.y, nr.position.z = nr.position.x-(sub_green.x)-0.06+0.04, nr.position.y-(sub_green.y)-0.07,0.2#TODO
         print("nr_x: "+str(nr.position.x) + "nr_y: " +str(nr.position.y) + "nr_z: "+ str(nr.position.z))
-        move_arm(nr.position.x, nr.position.y, nr.position.z)
+        move_arm(nr.position.x, nr.position.y, nr.position.z)"""
+        _target_pose.position.z = 0.07 + 0.03*2
+        print(str(n)+"!!!!!!!!!!")
+        move_arm(nr.position.x, nr.position.y, _target_pose.position.z)
+        rospy.sleep(1.0)
+        move_gripper(1.2)
+        _target_pose.position.z = 0.20 + 0.03*2
+        move_arm(nr.position.x, nr.position.y, _target_pose.position.z)
+        move_gripper(0.24)
 
     def choose_put_pos_B(self):
         robot = moveit_commander.RobotCommander()
@@ -762,8 +800,53 @@ class Food_Stock:
             arm.set_pose_target(target_pose)  # 目標ポーズ設定
             arm.go()  # 実行
         
+        """
         #nr.position.x, nr.position.y, nr.position.z = 0.2-(sub_green.x)+0.06, 0.2-(sub_green.y)-0.07,0.2
         nr.position.x, nr.position.y, nr.position.z = nr.position.x-(sub_blue.x)+0.06, nr.position.y-(sub_blue.y)-0.07,0.2
+        move_arm(nr.position.x, nr.position.y, nr.position.z)"""
+        _target_pose.position.z = 0.07 + 0.03*(3)
+        print(str(n)+"!!!!!!!!!!")
+        move_arm(nr.position.x, nr.position.y, _target_pose.position.z)
+        rospy.sleep(1.0)
+        move_gripper(1.2)
+        _target_pose.position.z = 0.20 + 0.03*(3)
+        move_arm(nr.position.x, nr.position.y, _target_pose.position.z)
+        move_gripper(0.24)
+
+    def choose_put_pos_R(self):
+        robot = moveit_commander.RobotCommander()
+        arm = moveit_commander.MoveGroupCommander("arm")
+        arm.set_max_velocity_scaling_factor(0.5)
+        gripper = moveit_commander.MoveGroupCommander("gripper")
+
+        _target_pose = Pose()
+        
+
+        # アーム初期ポーズを表示
+        arm_initial_pose = arm.get_current_pose().pose
+        print("Arm initial pose:")
+        print(arm_initial_pose)
+
+        def move_gripper(pou):
+            gripper.set_joint_value_target([pou, pou])
+            gripper.go()
+
+        def move_arm(pos_x, pos_y, pos_z):
+            target_pose = geometry_msgs.msg.Pose()
+            target_pose.position.x = pos_x
+            target_pose.position.y = pos_y
+            target_pose.position.z = pos_z
+            #q = quaternion_from_euler(-math.pi/2.0, math.pi/2.0, 0.0)  
+            q = quaternion_from_euler(-math.pi, 0.0, 0.0)
+            target_pose.orientation.x = q[0]
+            target_pose.orientation.y = q[1]
+            target_pose.orientation.z = q[2]
+            target_pose.orientation.w = q[3]
+            arm.set_pose_target(target_pose)  # 目標ポーズ設定
+            arm.go()  # 実行
+        
+        #nr.position.x, nr.position.y, nr.position.z = 0.2-(sub_green.x)+0.06, 0.2-(sub_green.y)-0.07,0.2
+        nr.position.x, nr.position.y, nr.position.z = nr.position.x-(sub_red.x)+0.06, nr.position.y-(sub_red.y)-0.07,0.2
         move_arm(nr.position.x, nr.position.y, nr.position.z)
 
     def ofset_b(self):
@@ -1113,13 +1196,77 @@ class Food_Stock:
         #nr.position.x, nr.position.y, nr.position.z = 0.2-(sub_blue.x)+0.06, 0.2-(sub_blue.y)-0.07,0.2
         #nr.position.x, nr.position.y, nr.position.z = nr.position.x-(sub_blue.x)+0.06, nr.position.y-(sub_blue.y)-0.07,0.2
         rotate_hand(n_x, n_y, n_z, -math.pi, 0.0, 0.0)
-        nr.position.x, nr.position.y, nr.position.z = n_x, n_y, n_z        
+        nr.position.x, nr.position.y, nr.position.z = n_x, n_y, n_z
+    
+    def pick_main(self):
+        robot = moveit_commander.RobotCommander()
+        arm = moveit_commander.MoveGroupCommander("arm")
+        arm.set_max_velocity_scaling_factor(0.5)
+        gripper = moveit_commander.MoveGroupCommander("gripper")
+
+        # アーム初期ポーズを表示
+        arm_initial_pose = arm.get_current_pose().pose
+        print("Arm initial pose:")
+        print(arm_initial_pose)
+
+        def move_gripper(pou):
+            gripper.set_joint_value_target([pou, pou])
+            gripper.go()
+
+        def move_arm(pos_x, pos_y, pos_z):
+            target_pose = geometry_msgs.msg.Pose()
+            target_pose.position.x = pos_x
+            target_pose.position.y = pos_y
+            target_pose.position.z = pos_z
+            q = quaternion_from_euler(-math.pi/2.0, 0.0, -math.pi/2.0)  
+            target_pose.orientation.x = q[0]
+            target_pose.orientation.y = q[1]
+            target_pose.orientation.z = q[2]
+            target_pose.orientation.w = q[3]
+            arm.set_pose_target(target_pose)  # 目標ポーズ設定
+            arm.go()  # 実行
+
+        def rotate_hand(pos_x, pos_y, pos_z, euler_x, euler_y, euler_z):
+            target_pose = geometry_msgs.msg.Pose()
+            target_pose.position.x = pos_x
+            target_pose.position.y = pos_y
+            target_pose.position.z = pos_z
+            q = quaternion_from_euler(euler_x, euler_y, euler_z)  
+            target_pose.orientation.x = q[0]
+            target_pose.orientation.y = q[1]
+            target_pose.orientation.z = q[2]
+            target_pose.orientation.w = q[3]
+            arm.set_pose_target(target_pose)  # 目標ポーズ設定
+            arm.go()  # 実行
+        
+        pick_and_place_in_gazebo_example.main(n=-1)
+        Mode_Stock.ofset_b()
+        Mode_Stock.main(n)
+        Mode_Stock.catch_block()
+        Mode_Stock.choose_put_pos_B()
+        Mode_Stock.put_block(n)
+        Mode_Stock.ofset_b()
+        Mode_Stock.y_move(n)
+        Mode_Stock.catch_block()
+        Mode_Stock.ofset_b()
+        Mode_Stock.x_move(n)
+        Mode_Stock.choose_put_pos_G()
+        Mode_Stock.put_block(n)
+        Mode_Stock.ofset_b()
+
+
+        
+
+
+        
         
 
 
 if __name__ == '__main__':
     counter = 0
     global nr 
+    global n
+    n = 0
     nr = Pose()
     try:
         if not rospy.is_shutdown():
