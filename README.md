@@ -101,7 +101,7 @@ $ sudo apt-get install librealsense2-dbg
 ```
   - パッケージをインストールすると、librealsense又は任意のIDEを使用し`dev`アプリケーションをコンパイル出来る
   ```
-  $g++ -std=c++11 filename.cpp -lrealsense2
+  $ g++ -std=c++11 filename.cpp -lrealsense2
   ```
 - インストールを確認するために、Intel RealSenseをUSB接続して、以下をターミナルに実行
 ```
