@@ -79,25 +79,25 @@ $ git clone https://github.com/ChikaraHanakawa/Robotdesign3_2022.git
 8. RealSenseのセットアップ
 - サーバーの公開鍵を登録
 ```
-$sudo sh -c 'echo "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo xenial main" | sudo tee /etc/apt/sources.list.d/realsense-public.list'
+$ sudo sh -c 'echo "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo xenial main" | sudo tee /etc/apt/sources.list.d/realsense-public.list'
 ```
 - サーバーをリポジトリのリストに追加
 ```
-$sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
+$ sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
 ```
 - ライブラリをインストールします
 ```
-$sudo apt-get install librealsense2-dkms
+$ sudo apt-get install librealsense2-dkms
 ```
 ```
-$sudo apt-get install librealsense2-utils
+$ sudo apt-get install librealsense2-utils
 ```
 - 必要に応じて、開発者パッケージとデバッグパッケージをインストール 
 ```
-$sudo apt-get install librealsense2-dev
+$ sudo apt-get install librealsense2-dev
 ```
 ```
-$sudo apt-get install librealsense2-dbg
+$ sudo apt-get install librealsense2-dbg
 ```
   - パッケージをインストールすると、librealsense又は任意のIDEを使用し`dev`アプリケーションをコンパイル出来る
   ```
@@ -105,32 +105,32 @@ $sudo apt-get install librealsense2-dbg
   ```
 - インストールを確認するために、Intel RealSenseをUSB接続して、以下をターミナルに実行
 ```
-$realsense-viewer
+$ realsense-viewer
 ```
 **ROSラッパーのインストール**  
   1. [ROSデバイスラッパー](https://github.com/intel-ros/realsense/releases)からSource Code(realsense-2.3.2.tar.gz)をダウンロード  
   ```
-  $tar xvzf realsense-2.3.2.tar.gz
+  $ tar xvzf realsense-2.3.2.tar.gz
   ```
   2. `realsense-2.3.2`というディレクトリが出来るので、`~/catkin_ws/src`に移動させる
   ```
-  $mv realsense-2.3.2 ~/catkin_ws/src/
+  $ mv realsense-2.3.2 ~/catkin_ws/src/
   ```
   3. ビルドする
   ```
-  $cd ~/catkin_ws/src/
+  $ cd ~/catkin_ws/src/
   ```
   ```
-  $catkin_make
+  $ catkin_make
   ```
 **実行方法**  
   - 端末1
   ```
-  $roslaunch realsense2_camera rs_camera.launch
+  $ roslaunch realsense2_camera rs_camera.launch
   ```
   - 端末2
   ```
-  $rosrun image_view image_view  image:=/camera/color/image_raw
+  $ rosrun image_view image_view  image:=/camera/color/image_raw
   ```
 9. OpenCVのインストール
 ```
