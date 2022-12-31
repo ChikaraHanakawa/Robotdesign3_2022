@@ -85,7 +85,7 @@ $ sudo sh -c 'echo "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-r
 ```
 $ sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
 ```
-- ライブラリをインストールします
+- ライブラリをインストール
 ```
 $ sudo apt-get install librealsense2-dkms
 ```
