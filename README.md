@@ -134,7 +134,10 @@ $ realsense-viewer
   ```
 9. OpenCVのインストール
 ```
-$
+$ wget --no-check-certificate https://raw.githubusercontent.com/milq/milq/master/scripts/bash/install-opencv.sh  
+$ chmod +x install-opencv.sh
+$ ./install-opencv.sh
+$ sudo apt-get install ros-melodic-cv-bridge
 ```
 10. CRANE_X7の設定の編集
 ```
